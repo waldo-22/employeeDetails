@@ -5,12 +5,12 @@ INSERT INTO department (name) VALUES
 ("Accountant");
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES
-("Waldo", "CEO", 1, 1),
-("Reniel", "Admin", 2, 2),
-("Ronnie", "Marketing", 3, 3),
-("Reynaldo", "Online-Marketing", 3, 3),
-("O'Niel", "Accountant", 4, 4),
-("Ricky", "Assistant-Accountant", 4, 4);
+("Waldo", "SomewhereNear", "CEO", 1),
+("Reniel", "Christianson", "Admin", 2),
+("Ronnie", "Dawg", "Marketing", 3),
+("Reynaldo", "Obana", "Online-Marketing", 3),
+("O'Niel", "Dude", "Accountant", 4),
+("Ricky", "Spanish", "Assistant-Accountant", 4);
 
 INSERT INTO employee_role (department_id, title, salary) VALUES
 (1, "CEO", 9999999),
@@ -18,7 +18,7 @@ INSERT INTO employee_role (department_id, title, salary) VALUES
 (3, "Marketing", 100000),
 (2, "Admin", 1000000),
 (4, "Accountant", 50000),
-(3, "Online-Marketing", 100000),
+(3, "Online-Marketing", 100000);
 
 
     
