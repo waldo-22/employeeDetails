@@ -10,7 +10,7 @@ CREATE TABLE employee (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
-    role_title VARCHAR(20) NOT NULL,
+    -- role_title VARCHAR(20) NOT NULL,
     manager_id INT NOT NULL,
     role_id INT NOT NULL
 );
@@ -27,13 +27,13 @@ INSERT INTO department (name) VALUES
 ("Marketing"),
 ("Accountant");
 
-INSERT INTO employee (first_name, last_name, role_title, role_id, manager_id) VALUES
-("Waldo", "SomewhereNear", "CEO", 1, 1),
-("Reniel", "Christianson", "Admin", 2, 2),
-("Ronnie", "Dawg", "Marketing", 3, 3),
-("Reynaldo", "Obana", "Online-Marketing", 3, 3),
-("O'Niel", "Dude", "Accountant", 4, 4),
-("Ricky", "Spanish", "Assistant-Accountant", 4, 4);
+INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES
+("Waldo", "SomewhereNear", 1, 1),
+("Reniel", "Christianson", 2, 2),
+("Ronnie", "Dawg", 3, 3),
+("Reynaldo", "Obana", 3, 3),
+("O'Niel", "Dude", 4, 4),
+("Ricky", "Spanish", 4, 4);
 
 INSERT INTO employee_role (department_id, title, salary) VALUES
 (1, "CEO", 9999999),
