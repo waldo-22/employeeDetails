@@ -11,7 +11,7 @@ async function init(){
           host: 'localhost',
           user: 'root',
           password: 'root',
-          database: 'employees_db'
+          database: 'employee_db'
         },
         console.log(`Connected to the employees_db database.`)
       );
@@ -21,7 +21,7 @@ async function awaitMySqlWithInquirer(){
 await init()
 
  const [employees] =  await db.execute("select * from employee")
- const [role] =  await db.execute("select * from employee_role")
+ const [role] =  await db.execute("select * from roles")
  const [employeeDepartment] =  await db.execute("select * from department")
 
   // console.table(employees);
@@ -90,67 +90,68 @@ await init()
 // Questions needed: view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role
 
     
-  //   async function addDepartment() {
-  //   await init()  
-  //   const [employees] = await db.execute("select * from employees")
-  //   const [department] = await db.execute("select * from department")
+    async function addDepartment() {
+    await init()  
+    // const [employees] = await db.execute("select * from employees")
+    const [department] = await db.execute("select * from department")
+    console.table(department);
 
-  //   const response = await prompt([
-  //     {
-  //       type: 'input',
-  //       first_name: 'firstName_id',
-  //       message: 'Add first name:',
-  //     },
-  //     {
-  //       type: 'input',
-  //       last_name: 'lastName_id',
-  //       message: 'Add last name:',
-  //     },
-  //     {
-  //       type: 'list',
-  //       name: 'selectRole',
-  //       message: 'Select a role:',
-  //       choices: department.map(department => ({name: department.name, value: department}))
-  //     },
-  //     {
-  //       type: 'list',
-  //       name: 'selectManager',
-  //       message: 'Select a manager id:',
-  //       choices: employees.map(employee=> ({name:employee.first_name + " "+ employee.last_name, value: employee}))
+    const response = await prompt([
+      {
+        type: 'input',
+        first_name: 'firstName_id',
+        message: 'Add first name:',
+      },
+      {
+        type: 'input',
+        last_name: 'lastName_id',
+        message: 'Add last name:',
+      },
+      {
+        type: 'list',
+        name: 'selectRole',
+        message: 'Select a role:',
+        choices: department.map(department => ({name: department.name, value: department}))
+      },
+      {
+        type: 'list',
+        name: 'selectManager',
+        message: 'Select a manager id:',
+        choices: employees.map(employee=> ({name:employee.first_name + " "+ employee.last_name, value: employee}))
 
-  //     },
-  //   ])
-  //   db.execute(`INSERT INTO employee (first_name, last_name, role_id, manager id) VALUES ("${response.firstName_id}", "${response.lastName_id}", "${response.selectRole}", "${response.selectManager}");`)
-  //   viewEmployee()
+      },
+    ])
+    db.execute(`INSERT INTO department (first_name, last_name, role_id, manager_id) VALUES ("${response.firstName_id}", "${response.lastName_id}", "${response.selectRole}", "${response.selectManager}");`)
+    viewEmployee()
     
-  // }
-  //   async function addEmployeeRole() {
-  //   await init()  
-  //   const [role] = await db.execute("select * from employee_role")
-  //   const [department] = await db.execute("select * from department")
+  }
+    async function addEmployeeRole() {
+    await init()  
+    // const [role] = await db.execute("select * from roles")
+    const [departments] = await db.execute("select * from department")
 
-  //   const response = await prompt([
-  //     {
-  //       type: 'input',
-  //       name: 'role_id',
-  //       message: 'Add your new role:',
-  //     },
-  //     {
-  //       type: 'input',
-  //       name: 'salary',
-  //       message: 'Salary of added new role:',
-  //     },
-  //     {
-  //       type: 'list',
-  //       name: 'decideDepartment',
-  //       message: 'Which department does your new role belong in?',
-  //       choices: department.map(department => ({name: department.name, value: department}))
-  //     },
-  //   ])
-  //   db.execute(`INSERT INTO employee_role (department_id, title, salary ) VALUES ("${response.decideDepartment.id}, ${response.role_id}", "${response.salary}");`)
-  //   viewRole()
+    const response = await prompt([
+      {
+        type: 'input',
+        name: 'role_id',
+        message: 'Add your new role:',
+      },
+      {
+        type: 'input',
+        name: 'salary',
+        message: 'Salary of added new role:',
+      },
+      {
+        type: 'list',
+        name: 'decideDepartment',
+        message: 'Which department does your new role belong in?',
+        choices: departments.map(department => ({name: department.name, value: department}))
+      },
+    ])
+    db.execute(`INSERT INTO roles (title, salary, department_id) VALUES ("${response.role_id}", "${response.salary}", "${response.decideDepartment.id}");`)
+    viewRole()
     
-  // }
+  }
   async function addEmployee() {
     await init()  
     const [employees] = await db.execute("select * from employee")
@@ -181,18 +182,52 @@ await init()
 
       },
     ])
-    db.execute(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("${response.firstName_id}", "${response.lastName_id}", ${response.selectRole.id}, ${response.selectManager.id});`)
+    db.execute(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("${response.firstName_id}", "${response.lastName_id}", "${response.selectRole.id}", "${response.selectManager.id});`)
     viewEmployee()
     
+  }
+
+  async function updateAEmployeeRole() {
+    await init()
+  
+      const [employees] =  await db.execute("select * from employee")
+      const [roles] =  await db.execute("select * from roles")
+  
+      console.table(employees);
+      
+          const response = await prompt([
+            {
+              type: 'list',
+              name: 'employee',
+              message: 'Which employees role would you like to update?',
+              choices: employees.map(employee=> ({name:employee.first_name + " "+ employee.last_name, value: employee}))
+            },
+            {
+              type: 'list',
+              message: 'What would you like their new role to be?',
+              name: 'chooseRole',
+              choices: roles.map(role=> ({name:role.id + ": "+ role.title, value: role}))
+              },
+            ])
+            db.execute( `UPDATE employee SET roles_id =${response.chooseRole.id} WHERE id = ${response.employee.id}`)
+    viewEmployees()
+  }
+
+  async function viewRole() {
+    const [roles] =  await db.execute("select * from roles")
+    console.table(roles)
+    return awaitMySqlWithInquirer()
+  }
+
+  async function viewDepartments() {
+    const [departments] =  await db.execute("select * from department")
+    console.table(departments)
+    return awaitMySqlWithInquirer()
   }
 
   async function viewEmployee() {
     const [employee] =  await db.execute("select * from employee")
     console.table(employee);
     return awaitMySqlWithInquirer()
-  }
-
-
-
-
+  };
 }
