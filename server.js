@@ -121,7 +121,7 @@ await init()
 
       },
     ])
-    db.execute(`INSERT INTO department (first_name, last_name, role_id, manager_id) VALUES ("${response.firstName_id}", "${response.lastName_id}", "${response.selectRole}", "${response.selectManager}");`)
+    db.execute(`INSERT INTO department (first_name, last_name, roles_id, manager_id) VALUES ("${response.firstName_id}", "${response.lastName_id}", "${response.selectRole}", "${response.selectManager}");`)
     viewEmployee()
     
   }
@@ -182,7 +182,7 @@ await init()
 
       },
     ])
-    db.execute(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("${response.firstName_id}", "${response.lastName_id}", "${response.selectRole.id}", "${response.selectManager.id});`)
+    db.execute(`INSERT INTO employee (first_name, last_name, roles_id, manager_id) VALUES ("${response.firstName_id}", "${response.lastName_id}", "${response.selectRole.id}", "${response.selectManager.id}");`)
     viewEmployee()
     
   }
